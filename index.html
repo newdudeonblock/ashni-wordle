@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>you’re not beating this</title>
+<style>
+:root{--bg:#faf9f7;--text:#222;--muted:#777;--border:#d8d5d0;--hit:#6aaa64;--near:#c9b458;--miss:#787c7e}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--text)}
+main{max-width:460px;margin:0 auto;padding:28px 18px 38px;text-align:center}
+h1{font-size:24px;margin:4px 0 6px} p{margin:6px 0 18px;color:var(--muted)}
+#board{display:grid;gap:6px;justify-content:center;margin:24px auto 20px}
+.row{display:grid;grid-template-columns:repeat(5,52px);gap:6px}
+.tile{width:52px;height:52px;border:2px solid var(--border);display:grid;place-items:center;font-size:26px;font-weight:700;text-transform:uppercase;background:#fff}
+.tile.filled{border-color:#999}
+.tile.hit,.tile.near,.tile.miss{color:white;border-color:transparent}
+.tile.hit{background:var(--hit)} .tile.near{background:var(--near)} .tile.miss{background:var(--miss)}
+#keys{display:grid;gap:7px;margin-top:18px}
+.keyrow{display:flex;gap:5px;justify-content:center}
+button{border:0;border-radius:6px;background:#d3d6da;font-weight:700;height:48px;min-width:31px;padding:0 8px;font-size:13px;cursor:pointer}
+button.wide{min-width:56px}
+#msg{min-height:26px;font-weight:600;margin-top:12px;color:var(--text)}
+#win{display:none;margin-top:20px;padding:18px;border:1px solid var(--border);border-radius:14px;background:white}
+#win strong{display:block;font-size:20px;margin-bottom:6px}
+.small{font-size:13px;color:var(--muted)}
+</style>
+</head>
+<body>
+<main>
+  <h1>you’re not beating this btw</h1>
+  <p>5 letters. 6 tries. don’t embarrass yourself.</p>
+  <div id="board"></div>
+  <div id="msg" aria-live="polite"></div>
+  <div id="keys"></div>
+  <div id="win">
+    <strong>ok fine you got it</strong>
+    <div>you win one properly planned friday date. huge.</div>
+    <div class="small" style="margin-top:8px">and no relationship ted talk unless you start one.</div>
+  </div>
+</main>
+<script>
+const answer="CHONK";
+const rows=6, cols=5;
+let guesses=Array.from({length:rows},()=>Array(cols).fill(""));
+let r=0,c=0,done=false;
+const board=document.getElementById("board"), msg=document.getElementById("msg"), win=document.getElementById("win");
+function draw(){
+ board.innerHTML="";
+ guesses.forEach((row,ri)=>{
+  const d=document.createElement("div"); d.className="row";
+  row.forEach((ch,ci)=>{
+   const t=document.createElement("div"); t.className="tile"+(ch?" filled":""); t.textContent=ch;
+   if(ri<r || done&&ri===r){
+    const res=score(row.join(""),answer)[ci];
+    if(res) t.classList.add(res);
+   }
+   d.appendChild(t);
+  }); board.appendChild(d);
+ });
+}
+function score(g,a){
+ const out=Array(5).fill("miss"), rem={};
+ for(let i=0;i<5;i++){if(g[i]===a[i]) out[i]="hit"; else rem[a[i]]=(rem[a[i]]||0)+1}
+ for(let i=0;i<5;i++) if(out[i]!=="hit" && rem[g[i]]>0){out[i]="near";rem[g[i]]--}
+ return out;
+}
+function press(k){
+ if(done) return;
+ if(k==="⌫"){if(c>0){c--;guesses[r][c]=""}}
+ else if(k==="ENTER"){
+  if(c<5){msg.textContent="need all 5 letters 👀";return}
+  const g=guesses[r].join("");
+  if(g===answer){done=true;msg.textContent="";draw();win.style.display="block";return}
+  r++;c=0;msg.textContent="";
+  if(r>=rows){done=true;msg.textContent="the word was CHONK. this feels rigged against you somehow.";return}
+ } else if(/^[A-Z]$/.test(k) && c<5){guesses[r][c++]=k}
+ draw();
+}
+const layouts=["QWERTYUIOP","ASDFGHJKL","ZXCVBNM"];
+layouts.forEach((s,i)=>{
+ const row=document.createElement("div");row.className="keyrow";
+ if(i===2){const b=document.createElement("button");b.textContent="ENTER";b.className="wide";b.onclick=()=>press("ENTER");row.appendChild(b)}
+ [...s].forEach(k=>{const b=document.createElement("button");b.textContent=k;b.onclick=()=>press(k);row.appendChild(b)});
+ if(i===2){const b=document.createElement("button");b.textContent="⌫";b.className="wide";b.onclick=()=>press("⌫");row.appendChild(b)}
+ document.getElementById("keys").appendChild(row);
+});
+document.addEventListener("keydown",e=>{
+ if(e.key==="Backspace") press("⌫");
+ else if(e.key==="Enter") press("ENTER");
+ else {const k=e.key.toUpperCase(); if(/^[A-Z]$/.test(k)) press(k)}
+});
+draw();
+</script>
+</body>
+</html>
