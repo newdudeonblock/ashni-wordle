@@ -2,94 +2,331 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>you’re not beating this</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#faf9f7">
+<title>xoxo, guess girl</title>
 <style>
-:root{--bg:#faf9f7;--text:#222;--muted:#777;--border:#d8d5d0;--hit:#6aaa64;--near:#c9b458;--miss:#787c7e}
+:root{
+  --bg:#faf9f7;--card:#fff;--text:#222;--muted:#777;--border:#d8d5d0;
+  --hit:#6aaa64;--near:#c9b458;--miss:#787c7e;--accent:#9d5c7c;
+}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--text)}
-main{max-width:460px;margin:0 auto;padding:28px 18px 38px;text-align:center}
-h1{font-size:24px;margin:4px 0 6px} p{margin:6px 0 18px;color:var(--muted)}
-#board{display:grid;gap:6px;justify-content:center;margin:24px auto 20px}
+body{
+  margin:0;background:var(--bg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  color:var(--text);min-height:100vh;
+}
+main{max-width:520px;margin:0 auto;padding:20px 14px 42px;text-align:center}
+h1{font-size:25px;margin:4px 0 5px;letter-spacing:-.4px}
+.subtitle{margin:0 0 15px;color:var(--muted);font-size:14px}
+.modebar{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:12px 0 8px}
+.mode{
+  height:40px;min-width:0;border:1px solid var(--border);border-radius:10px;background:#fff;
+  font-weight:700;font-size:11px;padding:0 4px;cursor:pointer;color:#444;
+}
+.mode.active{background:var(--accent);border-color:var(--accent);color:#fff}
+.mode.solved::after{content:" ✓"}
+.meta{display:flex;justify-content:space-between;align-items:center;margin:11px 3px 3px;font-size:12px;color:var(--muted)}
+#board{display:grid;gap:6px;justify-content:center;margin:18px auto 14px}
 .row{display:grid;grid-template-columns:repeat(5,52px);gap:6px}
-.tile{width:52px;height:52px;border:2px solid var(--border);display:grid;place-items:center;font-size:26px;font-weight:700;text-transform:uppercase;background:#fff}
+.tile{
+  width:52px;height:52px;border:2px solid var(--border);display:grid;place-items:center;
+  font-size:26px;font-weight:750;text-transform:uppercase;background:#fff;border-radius:3px;
+}
 .tile.filled{border-color:#999}
-.tile.hit,.tile.near,.tile.miss{color:white;border-color:transparent}
+.tile.hit,.tile.near,.tile.miss{color:#fff;border-color:transparent}
 .tile.hit{background:var(--hit)} .tile.near{background:var(--near)} .tile.miss{background:var(--miss)}
-#keys{display:grid;gap:7px;margin-top:18px}
+#hintBtn{
+  height:38px;border:1px solid var(--border);border-radius:999px;background:#fff;
+  font-weight:700;padding:0 16px;cursor:pointer;margin:2px 0 6px;
+}
+#hintWrap{display:none;margin:10px auto 12px;max-width:330px}
+#hintImg{
+  width:100%;max-height:250px;object-fit:cover;border-radius:14px;border:1px solid var(--border);
+  background:#eee;display:block;
+}
+#hintCap{font-size:12px;color:var(--muted);margin-top:6px}
+#msg{min-height:24px;font-weight:650;margin:8px 0 4px}
+#keys{display:grid;gap:7px;margin-top:12px;touch-action:manipulation}
 .keyrow{display:flex;gap:5px;justify-content:center}
-button{border:0;border-radius:6px;background:#d3d6da;font-weight:700;height:48px;min-width:31px;padding:0 8px;font-size:13px;cursor:pointer}
-button.wide{min-width:56px}
-#msg{min-height:26px;font-weight:600;margin-top:12px;color:var(--text)}
-#win{display:none;margin-top:20px;padding:18px;border:1px solid var(--border);border-radius:14px;background:white}
-#win strong{display:block;font-size:20px;margin-bottom:6px}
+.key{
+  border:0;border-radius:6px;background:#d3d6da;font-weight:750;height:48px;min-width:31px;
+  padding:0 7px;font-size:13px;cursor:pointer;color:#222;
+}
+.key.wide{min-width:54px;font-size:11px}
+.key.hit{background:var(--hit);color:#fff}.key.near{background:var(--near);color:#fff}.key.miss{background:var(--miss);color:#fff}
+#result{
+  display:none;margin-top:17px;padding:16px;border:1px solid var(--border);border-radius:14px;background:#fff
+}
+#result strong{display:block;font-size:19px;margin-bottom:5px}
 .small{font-size:13px;color:var(--muted)}
+.footer{margin-top:17px;color:#aaa;font-size:11px}
+@media(max-width:370px){
+  main{padding-left:8px;padding-right:8px}
+  .row{grid-template-columns:repeat(5,48px)}
+  .tile{width:48px;height:48px}
+  .key{min-width:27px;padding:0 5px}
+}
 </style>
 </head>
 <body>
 <main>
-  <h1>you’re not beating this btw</h1>
-  <p>5 letters. 6 tries. don’t embarrass yourself.</p>
+  <h1>xoxo, guess girl</h1>
+  <p class="subtitle">4 universes. 4 words. 6 tries each. don't get cocky.</p>
+
+  <div class="modebar" id="modebar"></div>
+  <div class="meta">
+    <span id="modeLabel"></span>
+    <span id="progress"></span>
+  </div>
+
+  <button id="hintBtn">need a hint? 📸</button>
+  <div id="hintWrap">
+    <img id="hintImg" alt="scene hint">
+    <div id="hintCap"></div>
+  </div>
+
   <div id="board"></div>
   <div id="msg" aria-live="polite"></div>
   <div id="keys"></div>
-  <div id="win">
-    <strong>ok fine you got it</strong>
-    <div>you win one properly planned friday date. huge.</div>
-    <div class="small" style="margin-top:8px">and no relationship ted talk unless you start one.</div>
+
+  <div id="result">
+    <strong id="resultTitle"></strong>
+    <div id="resultBody"></div>
+    <div class="small" id="resultSmall" style="margin-top:7px"></div>
   </div>
+
+  <div class="footer">new set at 7am + 6pm</div>
 </main>
+
 <script>
-const answer="CHONK";
+const DEPLOYMENT_ID='2026-09-23-morning-v2';
+
+const puzzles=[
+  {
+    id:'us',label:'US',name:'our lore',answer:'RAMEN',accent:'#9d5c7c',
+    hint:'assets/us/ramen.jpg',
+    hintCap:'this has somehow become part of the relationship canon.',
+    win:'okay, that was suspiciously quick.',
+    winSmall:'you do in fact know your own lore.',
+    fail:'the answer was RAMEN. genuinely embarrassing for us.'
+  },
+  {
+    id:'friends',label:'FRIENDS',name:'friends',answer:'PIVOT',accent:'#7d6fb2',
+    hint:'https://es.web.img3.acsta.net/img/3a/63/3a63fc8191c57b30c9980fbf0ac702a1.jpg',
+    hintCap:'the photo is the clue. no subtitles needed.',
+    win:'could you BE any more correct?',
+    winSmall:'one couch survived this round. barely.',
+    fail:'the answer was PIVOT. ross would have yelled it louder.'
+  },
+  {
+    id:'gossip',label:'GOSSIP GIRL',name:'gossip girl',answer:'TRAIN',accent:'#b78655',
+    hint:'https://arrumaessamala.com.br/wp-content/uploads/2020/04/serena-grand-central-terminal.jpg',
+    hintCap:'spotted: a return that started quite a lot.',
+    win:'spotted: someone who actually paid attention.',
+    winSmall:'xoxo, apparently you know your lore.',
+    fail:'the answer was TRAIN. gossip girl definitely knew first.'
+  },
+  {
+    id:'oc',label:'THE O.C.',name:'the o.c.',answer:'BEACH',accent:'#4e8a9a',
+    hint:'https://imgix.bustle.com/uploads/image/2019/1/14/244fd49a-c574-4716-97ed-41e82c11c21a-maxresdefault.jpg?crop=faces&dpr=2&fit=crop&h=500&q=70&w=700',
+    hintCap:'newport was never exactly subtle.',
+    win:'california, here we come.',
+    winSmall:'welcome to the o.c., bitch.',
+    fail:'the answer was BEACH. newport is judging you.'
+  }
+];
+
 const rows=6, cols=5;
-let guesses=Array.from({length:rows},()=>Array(cols).fill(""));
-let r=0,c=0,done=false;
-const board=document.getElementById("board"), msg=document.getElementById("msg"), win=document.getElementById("win");
-function draw(){
- board.innerHTML="";
- guesses.forEach((row,ri)=>{
-  const d=document.createElement("div"); d.className="row";
-  row.forEach((ch,ci)=>{
-   const t=document.createElement("div"); t.className="tile"+(ch?" filled":""); t.textContent=ch;
-   if(ri<r || done&&ri===r){
-    const res=score(row.join(""),answer)[ci];
-    if(res) t.classList.add(res);
-   }
-   d.appendChild(t);
-  }); board.appendChild(d);
- });
+let validWords=new Set();
+let dictionaryReady=false;
+let active='us';
+
+function blankState(){
+  return {guesses:Array.from({length:rows},()=>Array(cols).fill('')),r:0,c:0,done:false,won:false,hint:false};
 }
+const storageKey='xoxo-wordle-'+DEPLOYMENT_ID;
+let saved={};
+try{saved=JSON.parse(localStorage.getItem(storageKey)||'{}')}catch(e){saved={}}
+const state={};
+for(const p of puzzles){
+  const s=saved[p.id];
+  state[p.id]=s && Array.isArray(s.guesses) ? s : blankState();
+}
+function save(){
+  try{localStorage.setItem(storageKey,JSON.stringify(state))}catch(e){}
+}
+
+fetch('words.txt?'+DEPLOYMENT_ID)
+  .then(r=>r.text())
+  .then(t=>{
+    validWords=new Set(t.split(/\s+/).map(x=>x.trim().toUpperCase()).filter(x=>x.length===5));
+    dictionaryReady=true;
+  })
+  .catch(()=>{
+    dictionaryReady=false;
+  });
+
+const board=document.getElementById('board');
+const keys=document.getElementById('keys');
+const msg=document.getElementById('msg');
+const hintBtn=document.getElementById('hintBtn');
+const hintWrap=document.getElementById('hintWrap');
+const hintImg=document.getElementById('hintImg');
+const hintCap=document.getElementById('hintCap');
+const result=document.getElementById('result');
+const resultTitle=document.getElementById('resultTitle');
+const resultBody=document.getElementById('resultBody');
+const resultSmall=document.getElementById('resultSmall');
+const modebar=document.getElementById('modebar');
+const modeLabel=document.getElementById('modeLabel');
+const progress=document.getElementById('progress');
+
+function puzzle(){return puzzles.find(x=>x.id===active)}
+function st(){return state[active]}
+
 function score(g,a){
- const out=Array(5).fill("miss"), rem={};
- for(let i=0;i<5;i++){if(g[i]===a[i]) out[i]="hit"; else rem[a[i]]=(rem[a[i]]||0)+1}
- for(let i=0;i<5;i++) if(out[i]!=="hit" && rem[g[i]]>0){out[i]="near";rem[g[i]]--}
- return out;
+  const out=Array(5).fill('miss'), rem={};
+  for(let i=0;i<5;i++){
+    if(g[i]===a[i]) out[i]='hit';
+    else rem[a[i]]=(rem[a[i]]||0)+1;
+  }
+  for(let i=0;i<5;i++){
+    if(out[i]!=='hit' && rem[g[i]]>0){out[i]='near';rem[g[i]]--}
+  }
+  return out;
 }
+
+function drawModes(){
+  modebar.innerHTML='';
+  for(const p of puzzles){
+    const b=document.createElement('button');
+    b.className='mode'+(p.id===active?' active':'')+(state[p.id].won?' solved':'');
+    b.textContent=p.label;
+    b.onclick=()=>{active=p.id;msg.textContent='';draw()};
+    modebar.appendChild(b);
+  }
+}
+
+function letterRanks(){
+  const rank={miss:1,near:2,hit:3}, found={};
+  const s=st(), a=puzzle().answer;
+  for(let ri=0;ri<s.r+(s.done?1:0);ri++){
+    const g=s.guesses[ri].join('');
+    if(g.length!==5) continue;
+    const sc=score(g,a);
+    [...g].forEach((ch,i)=>{
+      if(!found[ch] || rank[sc[i]]>rank[found[ch]]) found[ch]=sc[i];
+    });
+  }
+  return found;
+}
+
+function drawBoard(){
+  board.innerHTML='';
+  const s=st(), a=puzzle().answer;
+  s.guesses.forEach((row,ri)=>{
+    const d=document.createElement('div');d.className='row';
+    row.forEach((ch,ci)=>{
+      const t=document.createElement('div');t.className='tile'+(ch?' filled':'');t.textContent=ch;
+      if(ri<s.r || (s.done&&ri===s.r)){
+        const res=score(row.join(''),a)[ci];
+        if(res)t.classList.add(res);
+      }
+      d.appendChild(t);
+    });
+    board.appendChild(d);
+  });
+}
+
+function drawKeys(){
+  keys.innerHTML='';
+  const found=letterRanks();
+  const layouts=['QWERTYUIOP','ASDFGHJKL','ZXCVBNM'];
+  layouts.forEach((s,i)=>{
+    const row=document.createElement('div');row.className='keyrow';
+    if(i===2){
+      const b=document.createElement('button');b.textContent='ENTER';b.className='key wide';b.onclick=()=>press('ENTER');row.appendChild(b);
+    }
+    [...s].forEach(k=>{
+      const b=document.createElement('button');b.textContent=k;b.className='key'+(found[k]?' '+found[k]:'');b.onclick=()=>press(k);row.appendChild(b);
+    });
+    if(i===2){
+      const b=document.createElement('button');b.textContent='⌫';b.className='key wide';b.onclick=()=>press('⌫');row.appendChild(b);
+    }
+    keys.appendChild(row);
+  });
+}
+
+function drawHint(){
+  const p=puzzle(), s=st();
+  hintWrap.style.display=s.hint?'block':'none';
+  hintBtn.textContent=s.hint?'hide hint 🙈':'need a hint? 📸';
+  if(s.hint){
+    hintImg.src=p.hint;
+    hintCap.textContent=p.hintCap;
+  }
+}
+
+function drawResult(){
+  const p=puzzle(), s=st();
+  if(!s.done){result.style.display='none';return}
+  result.style.display='block';
+  if(s.won){
+    resultTitle.textContent=p.win;
+    resultBody.textContent='you got '+p.answer+' in '+(s.r+1)+'/6.';
+    resultSmall.textContent=p.winSmall;
+  }else{
+    resultTitle.textContent='not your finest work.';
+    resultBody.textContent=p.fail;
+    resultSmall.textContent='there are three other universes waiting for redemption.';
+  }
+}
+
+function draw(){
+  const p=puzzle();
+  document.documentElement.style.setProperty('--accent',p.accent);
+  modeLabel.textContent=p.name;
+  const solved=puzzles.filter(x=>state[x.id].won).length;
+  progress.textContent=solved+'/4 solved';
+  drawModes();drawBoard();drawKeys();drawHint();drawResult();
+}
+
+hintBtn.onclick=()=>{
+  st().hint=!st().hint;save();drawHint();
+};
+
 function press(k){
- if(done) return;
- if(k==="⌫"){if(c>0){c--;guesses[r][c]=""}}
- else if(k==="ENTER"){
-  if(c<5){msg.textContent="need all 5 letters 👀";return}
-  const g=guesses[r].join("");
-  if(g===answer){done=true;msg.textContent="";draw();win.style.display="block";return}
-  r++;c=0;msg.textContent="";
-  if(r>=rows){done=true;msg.textContent="the word was CHONK. this feels rigged against you somehow.";return}
- } else if(/^[A-Z]$/.test(k) && c<5){guesses[r][c++]=k}
- draw();
+  const p=puzzle(), s=st();
+  if(s.done)return;
+  if(k==='⌫'){
+    if(s.c>0){s.c--;s.guesses[s.r][s.c]='';msg.textContent=''}
+  }else if(k==='ENTER'){
+    if(s.c<5){msg.textContent='need all 5 letters 👀';return}
+    const g=s.guesses[s.r].join('');
+    if(g!==p.answer){
+      if(!dictionaryReady){msg.textContent='dictionary is still loading, one sec 👀';return}
+      if(!validWords.has(g)){msg.textContent='that is not a word 😭';return}
+    }
+    if(g===p.answer){
+      s.done=true;s.won=true;msg.textContent='';save();draw();return;
+    }
+    s.r++;s.c=0;msg.textContent='';
+    if(s.r>=rows){s.done=true;s.won=false;save();draw();return}
+  }else if(/^[A-Z]$/.test(k)&&s.c<5){
+    s.guesses[s.r][s.c++]=k;msg.textContent='';
+  }
+  save();drawBoard();drawKeys();
 }
-const layouts=["QWERTYUIOP","ASDFGHJKL","ZXCVBNM"];
-layouts.forEach((s,i)=>{
- const row=document.createElement("div");row.className="keyrow";
- if(i===2){const b=document.createElement("button");b.textContent="ENTER";b.className="wide";b.onclick=()=>press("ENTER");row.appendChild(b)}
- [...s].forEach(k=>{const b=document.createElement("button");b.textContent=k;b.onclick=()=>press(k);row.appendChild(b)});
- if(i===2){const b=document.createElement("button");b.textContent="⌫";b.className="wide";b.onclick=()=>press("⌫");row.appendChild(b)}
- document.getElementById("keys").appendChild(row);
+
+document.addEventListener('keydown',e=>{
+  if(e.key==='Backspace')press('⌫');
+  else if(e.key==='Enter')press('ENTER');
+  else{
+    const k=e.key.toUpperCase();
+    if(/^[A-Z]$/.test(k))press(k);
+  }
 });
-document.addEventListener("keydown",e=>{
- if(e.key==="Backspace") press("⌫");
- else if(e.key==="Enter") press("ENTER");
- else {const k=e.key.toUpperCase(); if(/^[A-Z]$/.test(k)) press(k)}
-});
+
 draw();
 </script>
 </body>
