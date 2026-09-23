@@ -11,6 +11,17 @@
       "sha256": "765e7b6f43d73c2af85cf3eaada5e28390966326eefaaf86ca9d7376739d0435",
       "gitBlobSha": "c0b6a4cea1bfa5a48f13782ad22c8f4fe0e73272",
       "verified": true
+    },
+    {
+      "path": "assets/us/20260923-b.webp",
+      "sourceFile": "The Book of Us.pdf",
+      "sourceFileId": "file_000000001d1c81fa9aae598b5e8cf5fd",
+      "sourcePage": 23,
+      "memoryTextPage": 12,
+      "transformation": "Resized the existing page-23 illustration from the user's book to 220x220 and compressed as WebP. No added or generated depicted elements.",
+      "sha256": "e5cac21808a010bd21869f4ecf9747cff0f266f2c4c84708070f4fabe22e43d5",
+      "gitBlobSha": "0a3812fc05148cfc222613ea73d29559c9f85791",
+      "verified": true
     }
   ],
   "note": "Legacy assets are preserved but must be source-verified before reuse. Do not substitute internet images when uploads are unavailable."

@@ -15,6 +15,25 @@
         "oc":{"season":1,"episode":4,"scene":"Cotillion ballroom dance","connection":"The pictured activity is DANCE","source":"https://www.9now.com.au/the-oc/season-1/episode-4"},
         "gossip":{"season":3,"episode":17,"scene":"The confrontation after the bargain over the Empire","connection":"The disputed property is the HOTEL","source":"https://ew.com/gossip-girl-the-best-chuck-and-blair-moments-11810486","episodeSource":"https://www.tvmaze.com/episodes/53220/gossip-girl-3x17-inglourious-bassterds"}
       }
+    },
+    {
+      "edition":"2026-09-23-manual-four-worlds-v4",
+      "slot":"2026-09-23-MANUAL-BONUS",
+      "preparedAt":"2026-09-23T04:36:07Z",
+      "trigger":"User explicitly requested a fresh set now, in addition to the regular scheduled slots.",
+      "answers":{"us":"PIZZA","friends":"CRUSH","gossip":"DRESS","oc":"COMIC"},
+      "selection":{
+        "method":"Random episode-coordinate sampling, followed by scene-source verification and duplicate checks. This is not a claim of uniform sampling of every scene.",
+        "seed":258089443892049,
+        "draws":{"friends":[[4,13]],"gossip":[[1,10]],"oc":[[2,16],[2,10]]},
+        "redrawReasons":{"oc":"The initial bonfire scene risked repeating the prior beach hint. The Accomplice supplied a different, verified sketchbook scene.","us":"Initial RAJMA idea lacked a matched usable uploaded photo. Selected PIZZA from image-backed personal memories."}
+      },
+      "sources":{
+        "us":{"file":"The Book of Us.pdf","imagePage":23,"memoryPage":12,"asset":"assets/us/20260923-b.webp","connection":"The user's page-23 pizza illustration; page 12 also documents pizza and a movie during the first Chicago visit."},
+        "friends":{"season":4,"episode":13,"scene":"Rachel helps Joshua during a personal-shopping appointment","connection":"Rachel's romantic interest is a CRUSH","source":"https://friends.fandom.com/wiki/The_One_With_Rachel%27s_Crush","episodeSource":"https://www.tvmaze.com/episodes/40731/friends-4x13-the-one-with-rachels-crush","image":"https://static.wikia.nocookie.net/friends/images/8/81/TOWRachel%27sCrush.png/revision/latest/scale-to-width-down/536?cb=20180214121644"},
+        "gossip":{"season":1,"episode":10,"scene":"Dan and Serena dance at the cotillion","connection":"The formal outfit worn in the scene is a DRESS","source":"https://en.wikipedia.org/wiki/Hi,_Society","image":"https://upload.wikimedia.org/wikipedia/en/d/d1/Gossip_Girl-110.jpg"},
+        "oc":{"season":2,"episode":10,"scene":"Summer lies on her bed looking through Seth's drawings","connection":"The illustrated book is a COMIC","source":"https://oc.fandom.com/wiki/The_Accomplice","episodeSource":"https://www.tvmaze.com/episodes/68616/the-oc-2x10-the-accomplice","image":"https://static.wikia.nocookie.net/ocwikia/images/6/64/Summer_-_The_Accomplice.jpg/revision/latest","visualVerification":"Verified the actual sketchbook scene in a browser; rejected the unrelated TVmaze outdoor close-up."}
+      }
     }
   ]
 }
