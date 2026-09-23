@@ -1,0 +1,48 @@
+{
+  "edition": "2026-09-23-am-four-worlds-v3",
+  "label": "23 september · morning edition",
+  "timezone": "Asia/Kolkata",
+  "puzzles": [
+    {
+      "id": "us", "label": "US", "name": "our lore", "answer": "BATAK", "accent": "#9d5c7c",
+      "origin": "user-upload", "sourceFile": "The Book of Us.pdf", "sourcePage": 36,
+      "hint": "assets/us/20260923-a.webp", "hintCap": "our extremely serious shared vocabulary.",
+      "win": "fluent in us. concerning, honestly.",
+      "reveal": "that ridiculous little word made it into The Book of Us. page 33 has the receipts.",
+      "fail": "the answer was BATAK. our dictionary remains deeply unserious."
+    },
+    {
+      "id": "friends", "label": "FRIENDS", "name": "friends", "answer": "VIDEO", "accent": "#7d6fb2",
+      "origin": "show-scene", "season": 2, "episode": 14,
+      "hint": "https://media.hollywood.com/images/638x425/1808646.jpg",
+      "hintCap": "the format of this deeply embarrassing evidence.",
+      "win": "could you BE any more correct?",
+      "reveal": "S2E14: The One with the Prom Video. an old recording does a lot of emotional damage control.",
+      "fail": "the answer was VIDEO. we may need to rewind.",
+      "sourceUrl": "https://www.hollywood.com/tv/vampire-diaries-prom-top-5-prom-episodes-friends-dawsons-creek-buffy-59091054",
+      "sourceCredit": "scene still via Hollywood.com"
+    },
+    {
+      "id": "gossip", "label": "GOSSIP GIRL", "name": "gossip girl", "answer": "HOTEL", "accent": "#b78655",
+      "origin": "show-scene", "season": 3, "episode": 17,
+      "hint": "https://ew.com/thmb/wwPerYhCCoDR3pVsgsalXZGBrlg%3D/2000x0/filters%3Ano_upscale%28%29%3Amax_bytes%28150000%29%3Astrip_icc%28%29%3Aformat%28webp%29/Gossip-Girl-Chuck-Blair-082225-36-3cab234ee0044b44abb5973c103a33cc.jpg",
+      "hintCap": "what was all this drama supposed to win back?",
+      "win": "spotted: someone who kept the receipts.",
+      "reveal": "S3E17: Inglourious Bassterds. the Empire was the prize in a very bad bargain.",
+      "fail": "the answer was HOTEL. absolutely not worth the drama.",
+      "sourceUrl": "https://ew.com/gossip-girl-the-best-chuck-and-blair-moments-11810486",
+      "sourceCredit": "The CW still via Entertainment Weekly"
+    },
+    {
+      "id": "oc", "label": "THE O.C.", "name": "the o.c.", "answer": "DANCE", "accent": "#4e8a9a",
+      "origin": "show-scene", "season": 1, "episode": 4,
+      "hint": "https://imageresizer.static9.net.au/CFmAmyIF0NuacCYrqtlzlRnJcRM%3D/1920x0/vms-tv-images-prod.s3-ap-southeast-2.amazonaws.com%2F2023%2F11%2F548769%2Fep4.png",
+      "hintCap": "the activity Newport somehow made this formal.",
+      "win": "newport society reluctantly approves.",
+      "reveal": "S1E4: The Debut. cotillion, white gloves, and some extremely complicated footwork.",
+      "fail": "the answer was DANCE. watch the toes next time.",
+      "sourceUrl": "https://www.9now.com.au/the-oc/season-1/episode-4",
+      "sourceCredit": "episode still via 9Now"
+    }
+  ]
+}

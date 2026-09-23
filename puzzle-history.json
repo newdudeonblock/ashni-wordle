@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "avoidRepeatEditions": 60,
+  "editions": [
+    {"edition":"legacy-original","status":"previous source","answers":{"us":"CHONK"}},
+    {"edition":"2026-09-23-morning-v2","status":"previous GitHub commit 1f781050aa66fba85772213ad6670fd84622426a","answers":{"us":"RAMEN","friends":"PIVOT","gossip":"TRAIN","oc":"BEACH"}},
+    {
+      "edition":"2026-09-23-am-four-worlds-v3",
+      "slot":"2026-09-23-AM",
+      "answers":{"us":"BATAK","friends":"VIDEO","gossip":"HOTEL","oc":"DANCE"},
+      "selection":{"method":"Python SystemRandom sample of episode coordinates across complete original season runs; first sampled episode retained for each show after checking scene sources","draws":{"friends":[[2,14],[8,14],[2,1]],"oc":[[1,4],[1,15],[2,23]],"gossip":[[3,17],[5,18],[2,5]]}},
+      "sources":{
+        "us":{"file":"The Book of Us.pdf","imagePage":36,"memoryPage":33,"connection":"The shared word Batak is explicitly mentioned in the book; the supplied illustration is its visual cue."},
+        "friends":{"season":2,"episode":14,"scene":"The old prom home recording","connection":"The recording format is VIDEO","source":"https://www.hollywood.com/tv/vampire-diaries-prom-top-5-prom-episodes-friends-dawsons-creek-buffy-59091054","episodeSource":"https://www.tvmaze.com/episodes/40683/friends-2x14-the-one-with-the-prom-video"},
+        "oc":{"season":1,"episode":4,"scene":"Cotillion ballroom dance","connection":"The pictured activity is DANCE","source":"https://www.9now.com.au/the-oc/season-1/episode-4"},
+        "gossip":{"season":3,"episode":17,"scene":"The confrontation after the bargain over the Empire","connection":"The disputed property is the HOTEL","source":"https://ew.com/gossip-girl-the-best-chuck-and-blair-moments-11810486","episodeSource":"https://www.tvmaze.com/episodes/53220/gossip-girl-3x17-inglourious-bassterds"}
+      }
+    }
+  ]
+}

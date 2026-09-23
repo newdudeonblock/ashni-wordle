@@ -1,0 +1,17 @@
+{
+  "allowedSourceFiles": ["The Book of Us.pdf", "assets.zip"],
+  "assets": [
+    {
+      "path": "assets/us/20260923-a.webp",
+      "sourceFile": "The Book of Us.pdf",
+      "sourceFileId": "file_000000001d1c81fa9aae598b5e8cf5fd",
+      "sourcePage": 36,
+      "memoryTextPage": 33,
+      "transformation": "Rendered the complete illustrated page, resized to 320x320 and compressed as WebP. No generated content.",
+      "sha256": "765e7b6f43d73c2af85cf3eaada5e28390966326eefaaf86ca9d7376739d0435",
+      "gitBlobSha": "c0b6a4cea1bfa5a48f13782ad22c8f4fe0e73272",
+      "verified": true
+    }
+  ],
+  "note": "Legacy assets are preserved but must be source-verified before reuse. Do not substitute internet images when uploads are unavailable."
+}

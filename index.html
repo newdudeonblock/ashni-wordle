@@ -4,330 +4,98 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#faf9f7">
+<meta name="robots" content="noindex,nofollow,noarchive">
 <title>xoxo, guess girl</title>
 <style>
-:root{
-  --bg:#faf9f7;--card:#fff;--text:#222;--muted:#777;--border:#d8d5d0;
-  --hit:#6aaa64;--near:#c9b458;--miss:#787c7e;--accent:#9d5c7c;
-}
-*{box-sizing:border-box}
-body{
-  margin:0;background:var(--bg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-  color:var(--text);min-height:100vh;
-}
-main{max-width:520px;margin:0 auto;padding:20px 14px 42px;text-align:center}
-h1{font-size:25px;margin:4px 0 5px;letter-spacing:-.4px}
-.subtitle{margin:0 0 15px;color:var(--muted);font-size:14px}
-.modebar{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:12px 0 8px}
-.mode{
-  height:40px;min-width:0;border:1px solid var(--border);border-radius:10px;background:#fff;
-  font-weight:700;font-size:11px;padding:0 4px;cursor:pointer;color:#444;
-}
-.mode.active{background:var(--accent);border-color:var(--accent);color:#fff}
-.mode.solved::after{content:" ✓"}
-.meta{display:flex;justify-content:space-between;align-items:center;margin:11px 3px 3px;font-size:12px;color:var(--muted)}
-#board{display:grid;gap:6px;justify-content:center;margin:18px auto 14px}
-.row{display:grid;grid-template-columns:repeat(5,52px);gap:6px}
-.tile{
-  width:52px;height:52px;border:2px solid var(--border);display:grid;place-items:center;
-  font-size:26px;font-weight:750;text-transform:uppercase;background:#fff;border-radius:3px;
-}
-.tile.filled{border-color:#999}
-.tile.hit,.tile.near,.tile.miss{color:#fff;border-color:transparent}
-.tile.hit{background:var(--hit)} .tile.near{background:var(--near)} .tile.miss{background:var(--miss)}
-#hintBtn{
-  height:38px;border:1px solid var(--border);border-radius:999px;background:#fff;
-  font-weight:700;padding:0 16px;cursor:pointer;margin:2px 0 6px;
-}
-#hintWrap{display:none;margin:10px auto 12px;max-width:330px}
-#hintImg{
-  width:100%;max-height:250px;object-fit:cover;border-radius:14px;border:1px solid var(--border);
-  background:#eee;display:block;
-}
-#hintCap{font-size:12px;color:var(--muted);margin-top:6px}
-#msg{min-height:24px;font-weight:650;margin:8px 0 4px}
-#keys{display:grid;gap:7px;margin-top:12px;touch-action:manipulation}
-.keyrow{display:flex;gap:5px;justify-content:center}
-.key{
-  border:0;border-radius:6px;background:#d3d6da;font-weight:750;height:48px;min-width:31px;
-  padding:0 7px;font-size:13px;cursor:pointer;color:#222;
-}
-.key.wide{min-width:54px;font-size:11px}
-.key.hit{background:var(--hit);color:#fff}.key.near{background:var(--near);color:#fff}.key.miss{background:var(--miss);color:#fff}
-#result{
-  display:none;margin-top:17px;padding:16px;border:1px solid var(--border);border-radius:14px;background:#fff
-}
-#result strong{display:block;font-size:19px;margin-bottom:5px}
-.small{font-size:13px;color:var(--muted)}
-.footer{margin-top:17px;color:#aaa;font-size:11px}
-@media(max-width:370px){
-  main{padding-left:8px;padding-right:8px}
-  .row{grid-template-columns:repeat(5,48px)}
-  .tile{width:48px;height:48px}
-  .key{min-width:27px;padding:0 5px}
-}
+:root{--bg:#faf9f7;--text:#222;--muted:#777;--border:#d8d5d0;--hit:#6aaa64;--near:#c9b458;--miss:#787c7e;--accent:#9d5c7c}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--text)}
+main{max-width:520px;margin:0 auto;padding:20px 12px 38px;text-align:center}h1{font-size:25px;margin:4px 0 5px;letter-spacing:-.4px}
+.subtitle{margin:0 0 15px;color:var(--muted);font-size:14px}button{font:inherit;cursor:pointer;touch-action:manipulation}button:focus-visible,a:focus-visible{outline:3px solid var(--accent);outline-offset:3px}[hidden]{display:none!important}
+.modebar{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin:12px 0 8px}.mode{height:42px;min-width:0;border:1px solid var(--border);border-radius:10px;background:#fff;font-weight:700;font-size:11px;padding:0 3px;color:#444}.mode.active{background:var(--accent);border-color:var(--accent);color:#fff}.mode.solved::after{content:" ✓"}
+.meta{display:flex;justify-content:space-between;margin:12px 3px 5px;font-size:12px;color:var(--muted)}.edition{font-size:11px;color:var(--muted);margin-bottom:12px}
+#board{display:grid;gap:6px;justify-content:center;margin:16px auto 12px}.row{display:grid;grid-template-columns:repeat(5,52px);gap:6px}.tile{width:52px;height:52px;border:2px solid var(--border);display:grid;place-items:center;font-size:26px;font-weight:750;text-transform:uppercase;background:#fff;border-radius:3px}.tile.filled{border-color:#999}.tile.hit,.tile.near,.tile.miss{color:#fff;border-color:transparent}.hit{background:var(--hit)!important}.near{background:var(--near)!important}.miss{background:var(--miss)!important}
+.pill{min-height:38px;border:1px solid var(--border);border-radius:999px;background:#fff;font-weight:650;padding:7px 16px;color:var(--text)}#hintWrap{margin:12px auto;max-width:360px}#hintImg{width:100%;max-height:300px;object-fit:contain;border-radius:12px;background:#eee;display:block}#hintCap,#imageError{font-size:12px;color:var(--muted);margin:8px 0}#msg{min-height:24px;font-weight:650;margin:8px 0 4px;font-size:14px}
+#keys{display:grid;gap:7px;margin-top:12px}.keyrow{display:flex;gap:5px;justify-content:center}.key{border:0;border-radius:6px;background:#d3d6da;font-weight:750;height:48px;width:calc((100% - 45px)/10);max-width:42px;min-width:0;padding:0;font-size:13px;color:#222}.key.wide{width:15%;max-width:64px;font-size:11px}.key.hit,.key.near,.key.miss{color:#fff}
+#result{margin-top:17px;padding:16px;border:1px solid var(--border);border-radius:14px;background:#fff}#result strong{display:block;font-size:19px;margin-bottom:6px}.small{font-size:13px;color:var(--muted);line-height:1.5}#source{color:var(--accent);font-size:12px;display:inline-block;margin-top:10px}.footer{margin-top:18px;color:var(--muted);font-size:11px;line-height:1.7}#newSet{margin:8px auto;background:#fff6df}#fatal{padding:18px;line-height:1.6}
+@media(max-width:350px){main{padding-left:8px;padding-right:8px}.row{grid-template-columns:repeat(5,48px)}.tile{width:48px;height:48px}.mode{font-size:10px}}
 </style>
 </head>
-<body>
-<main>
-  <h1>xoxo, guess girl</h1>
-  <p class="subtitle">4 universes. 4 words. 6 tries each. don't get cocky.</p>
-
-  <div class="modebar" id="modebar"></div>
-  <div class="meta">
-    <span id="modeLabel"></span>
-    <span id="progress"></span>
-  </div>
-
-  <button id="hintBtn">need a hint? 📸</button>
-  <div id="hintWrap">
-    <img id="hintImg" alt="scene hint">
-    <div id="hintCap"></div>
-  </div>
-
-  <div id="board"></div>
-  <div id="msg" aria-live="polite"></div>
-  <div id="keys"></div>
-
-  <div id="result">
-    <strong id="resultTitle"></strong>
-    <div id="resultBody"></div>
-    <div class="small" id="resultSmall" style="margin-top:7px"></div>
-  </div>
-
-  <div class="footer">new set at 7am + 6pm</div>
+<body><main>
+<h1>xoxo, guess girl</h1>
+<p class="subtitle">4 universes. 4 words. 6 tries each. don't get cocky.</p>
+<p id="fatal" role="status">getting the latest lore...</p>
+<div id="game" hidden>
+<nav class="modebar" id="modebar" aria-label="Puzzle modes"></nav>
+<div class="meta"><span id="modeLabel"></span><span id="progress"></span></div>
+<div class="edition" id="edition"></div>
+<button id="newSet" class="pill" hidden>a new set is here. play it →</button>
+<button id="hintBtn" class="pill" aria-expanded="false" aria-controls="hintWrap">need a hint? 📸</button>
+<figure id="hintWrap" hidden><img id="hintImg" alt="Picture clue for this puzzle" referrerpolicy="no-referrer"><figcaption id="hintCap"></figcaption><div id="imageError" role="status" hidden>that picture did not load. <button id="retryImage" class="pill">retry photo</button></div></figure>
+<div id="board" role="group" aria-label="Six-guess Wordle board"></div>
+<div id="msg" role="status" aria-live="polite"></div><div id="keys" aria-label="On-screen keyboard"></div>
+<section id="result" hidden><strong id="resultTitle"></strong><div id="resultBody"></div><p id="resultSmall" class="small"></p><a id="source" target="_blank" rel="noopener noreferrer" hidden>scene source</a></section>
+<div class="footer">new sets at 7am + 6pm IST<br>real five-letter guesses only. the exact answer is the one exception.<br>us = your uploads only. shows = actual scene stills.</div>
+</div>
+<noscript>Please enable JavaScript to play.</noscript>
 </main>
-
 <script>
-const DEPLOYMENT_ID='2026-09-23-morning-v2';
-
-const puzzles=[
-  {
-    id:'us',label:'US',name:'our lore',answer:'RAMEN',accent:'#9d5c7c',
-    hint:'assets/us/ramen.jpg',
-    hintCap:'this has somehow become part of the relationship canon.',
-    win:'okay, that was suspiciously quick.',
-    winSmall:'you do in fact know your own lore.',
-    fail:'the answer was RAMEN. genuinely embarrassing for us.'
-  },
-  {
-    id:'friends',label:'FRIENDS',name:'friends',answer:'PIVOT',accent:'#7d6fb2',
-    hint:'https://es.web.img3.acsta.net/img/3a/63/3a63fc8191c57b30c9980fbf0ac702a1.jpg',
-    hintCap:'the photo is the clue. no subtitles needed.',
-    win:'could you BE any more correct?',
-    winSmall:'one couch survived this round. barely.',
-    fail:'the answer was PIVOT. ross would have yelled it louder.'
-  },
-  {
-    id:'gossip',label:'GOSSIP GIRL',name:'gossip girl',answer:'TRAIN',accent:'#b78655',
-    hint:'https://arrumaessamala.com.br/wp-content/uploads/2020/04/serena-grand-central-terminal.jpg',
-    hintCap:'spotted: a return that started quite a lot.',
-    win:'spotted: someone who actually paid attention.',
-    winSmall:'xoxo, apparently you know your lore.',
-    fail:'the answer was TRAIN. gossip girl definitely knew first.'
-  },
-  {
-    id:'oc',label:'THE O.C.',name:'the o.c.',answer:'BEACH',accent:'#4e8a9a',
-    hint:'https://imgix.bustle.com/uploads/image/2019/1/14/244fd49a-c574-4716-97ed-41e82c11c21a-maxresdefault.jpg?crop=faces&dpr=2&fit=crop&h=500&q=70&w=700',
-    hintCap:'newport was never exactly subtle.',
-    win:'california, here we come.',
-    winSmall:'welcome to the o.c., bitch.',
-    fail:'the answer was BEACH. newport is judging you.'
-  }
-];
-
-const rows=6, cols=5;
-let validWords=new Set();
-let dictionaryReady=false;
-let active='us';
-
-function blankState(){
-  return {guesses:Array.from({length:rows},()=>Array(cols).fill('')),r:0,c:0,done:false,won:false,hint:false};
+'use strict';
+const $=id=>document.getElementById(id), MODES=['us','friends','gossip','oc'], LIMIT=6;
+let pack, pendingPack, active='us', states={}, words=new Set(), dictionaryStatus='loading', message='';
+function score(guess,answer){const result=Array(5).fill('miss'),left={};for(let i=0;i<5;i++){if(guess[i]===answer[i])result[i]='hit';else left[answer[i]]=(left[answer[i]]||0)+1;}for(let i=0;i<5;i++){if(result[i]!=='hit'&&left[guess[i]]>0){result[i]='near';left[guess[i]]--;}}return result;}
+function allowed(guess,answer){return /^[A-Z]{5}$/.test(guess)&&(guess===answer||(dictionaryStatus==='ready'&&words.has(guess)));}
+function validatePack(data){
+ if(!data||typeof data.edition!=='string'||!Array.isArray(data.puzzles)||data.puzzles.length!==4)throw Error('Invalid edition');
+ const ids=new Set(data.puzzles.map(p=>p.id));if(ids.size!==4||MODES.some(id=>!ids.has(id)))throw Error('All four modes are required');
+ for(const p of data.puzzles){
+  if(!/^[A-Z]{5}$/.test(p.answer)||typeof p.hint!=='string'||typeof p.hintCap!=='string')throw Error('Invalid puzzle');
+  if(p.hintCap.toUpperCase().includes(p.answer))throw Error('Hint caption reveals the answer');
+  if(p.id==='us'){
+   if(p.origin!=='user-upload'||!/^assets\/us\/[a-zA-Z0-9_-]+\.(webp|png|jpe?g)$/.test(p.hint)||!['The Book of Us.pdf','assets.zip'].includes(p.sourceFile))throw Error('Us hints must come from the approved uploads');
+  }else if(p.origin!=='show-scene'||!p.season||!p.episode||!/^https:\/\//.test(p.sourceUrl)||!(/^https:\/\//.test(p.hint)||/^assets\/shows\//.test(p.hint)))throw Error('Verified show scene required');
+ }
+ return data;
 }
-const storageKey='xoxo-wordle-'+DEPLOYMENT_ID;
-let saved={};
-try{saved=JSON.parse(localStorage.getItem(storageKey)||'{}')}catch(e){saved={}}
-const state={};
-for(const p of puzzles){
-  const s=saved[p.id];
-  state[p.id]=s && Array.isArray(s.guesses) ? s : blankState();
+function storageKey(){return 'xoxo-v3:'+pack.edition;}
+function current(){return pack.puzzles.find(p=>p.id===active);}
+function state(){return states[active];}
+function restore(p,raw){
+ const guesses=Array.isArray(raw?.guesses)?raw.guesses.slice(0,LIMIT).filter(g=>typeof g==='string'&&/^[A-Z]{5}$/.test(g)):[];
+ const winAt=guesses.indexOf(p.answer);if(winAt>=0)guesses.splice(winAt+1);
+ const done=guesses.includes(p.answer)||guesses.length>=LIMIT;
+ const draft=!done&&typeof raw?.draft==='string'&&/^[A-Z]{0,5}$/.test(raw.draft)?raw.draft:'';
+ return {guesses,draft,hint:raw?.hint===true};
 }
-function save(){
-  try{localStorage.setItem(storageKey,JSON.stringify(state))}catch(e){}
+function save(){try{localStorage.setItem(storageKey(),JSON.stringify(states));}catch{}}
+function install(data){pack=validatePack(data);let old={};try{old=JSON.parse(localStorage.getItem(storageKey())||'{}')||{};}catch{}states={};for(const p of pack.puzzles)states[p.id]=restore(p,old[p.id]);pendingPack=null;message='';$('newSet').hidden=true;$('fatal').hidden=true;$('game').hidden=false;render();}
+function finished(s,p){return s.guesses.includes(p.answer)||s.guesses.length===LIMIT;}
+function render(){
+ const p=current(),s=state(),won=s.guesses.includes(p.answer),done=finished(s,p);
+ document.documentElement.style.setProperty('--accent',p.accent||'#9d5c7c');$('modeLabel').textContent=p.name;$('progress').textContent=pack.puzzles.filter(x=>states[x.id].guesses.includes(x.answer)).length+'/4 solved';$('edition').textContent=pack.label||pack.edition;
+ $('modebar').replaceChildren();for(const mode of pack.puzzles){const b=document.createElement('button');b.className='mode'+(active===mode.id?' active':'')+(states[mode.id].guesses.includes(mode.answer)?' solved':'');b.textContent=mode.label;b.setAttribute('aria-pressed',String(active===mode.id));b.onclick=()=>{active=mode.id;message='';render();};$('modebar').appendChild(b);}
+ $('board').replaceChildren();const ranks={},rank={miss:1,near:2,hit:3};
+ for(let row=0;row<LIMIT;row++){const submitted=row<s.guesses.length,g=submitted?s.guesses[row]:(!done&&row===s.guesses.length?s.draft:'');const colors=submitted?score(g,p.answer):[];const div=document.createElement('div');div.className='row';for(let i=0;i<5;i++){const cell=document.createElement('span');cell.className='tile'+(g[i]?' filled':'')+(colors[i]?' '+colors[i]:'');cell.textContent=g[i]||'';cell.setAttribute('aria-label',g[i]?(g[i]+(colors[i]?' '+({hit:'correct position',near:'wrong position',miss:'not present'}[colors[i]]):'')):'empty');div.appendChild(cell);if(submitted&&(!ranks[g[i]]||rank[colors[i]]>rank[ranks[g[i]]]))ranks[g[i]]=colors[i];}$('board').appendChild(div);}
+ $('keys').replaceChildren();for(const layout of ['QWERTYUIOP','ASDFGHJKL','ENTER ZXCVBNM BACKSPACE']){const row=document.createElement('div');row.className='keyrow';const letters=layout.includes(' ')?['ENTER',...'ZXCVBNM','BACKSPACE']:[...layout];for(const key of letters){const b=document.createElement('button');b.className='key'+(key.length>1?' wide':'')+(ranks[key]?' '+ranks[key]:'');b.textContent=key==='BACKSPACE'?'⌫':key;b.setAttribute('aria-label',key==='BACKSPACE'?'Delete letter':key);b.onclick=()=>press(key);row.appendChild(b);}$('keys').appendChild(row);}
+ $('msg').textContent=message;$('hintWrap').hidden=!s.hint;$('hintBtn').textContent=s.hint?'hide hint 🙈':'need a hint? 📸';$('hintBtn').setAttribute('aria-expanded',String(s.hint));$('hintCap').textContent=p.hintCap;
+ if(s.hint&&$('hintImg').getAttribute('src')!==p.hint){$('imageError').hidden=true;$('hintImg').hidden=false;$('hintImg').src=p.hint;}
+ $('result').hidden=!done;$('source').hidden=true;
+ if(done){$('resultTitle').textContent=won?p.win:'not your finest work.';$('resultBody').textContent=won?'you got '+p.answer+' in '+s.guesses.length+'/6.':p.fail;$('resultSmall').textContent=p.reveal||p.winSmall||'';if(p.sourceUrl&&/^https:\/\//.test(p.sourceUrl)){$('source').href=p.sourceUrl;$('source').textContent=p.sourceCredit||'scene source';$('source').hidden=false;}}
 }
-
-fetch('words.txt?'+DEPLOYMENT_ID)
-  .then(r=>r.text())
-  .then(t=>{
-    validWords=new Set(t.split(/\s+/).map(x=>x.trim().toUpperCase()).filter(x=>x.length===5));
-    dictionaryReady=true;
-  })
-  .catch(()=>{
-    dictionaryReady=false;
-  });
-
-const board=document.getElementById('board');
-const keys=document.getElementById('keys');
-const msg=document.getElementById('msg');
-const hintBtn=document.getElementById('hintBtn');
-const hintWrap=document.getElementById('hintWrap');
-const hintImg=document.getElementById('hintImg');
-const hintCap=document.getElementById('hintCap');
-const result=document.getElementById('result');
-const resultTitle=document.getElementById('resultTitle');
-const resultBody=document.getElementById('resultBody');
-const resultSmall=document.getElementById('resultSmall');
-const modebar=document.getElementById('modebar');
-const modeLabel=document.getElementById('modeLabel');
-const progress=document.getElementById('progress');
-
-function puzzle(){return puzzles.find(x=>x.id===active)}
-function st(){return state[active]}
-
-function score(g,a){
-  const out=Array(5).fill('miss'), rem={};
-  for(let i=0;i<5;i++){
-    if(g[i]===a[i]) out[i]='hit';
-    else rem[a[i]]=(rem[a[i]]||0)+1;
-  }
-  for(let i=0;i<5;i++){
-    if(out[i]!=='hit' && rem[g[i]]>0){out[i]='near';rem[g[i]]--}
-  }
-  return out;
+function press(key){
+ if(!pack)return;const p=current(),s=state();if(finished(s,p))return;
+ if(key==='BACKSPACE'){s.draft=s.draft.slice(0,-1);message='';}
+ else if(key==='ENTER'){
+  if(s.draft.length!==5){message='need all 5 letters 👀';render();return;}
+  if(!allowed(s.draft,p.answer)){message=dictionaryStatus==='ready'?'that is not in the word list 😭':dictionaryStatus==='failed'?'word list could not load. tap here to retry.':'word list is loading. one sec 👀';render();return;}
+  s.guesses.push(s.draft);s.draft='';message='';
+ }else if(/^[A-Z]$/.test(key)&&s.draft.length<5){s.draft+=key;message='';}
+ save();render();
 }
-
-function drawModes(){
-  modebar.innerHTML='';
-  for(const p of puzzles){
-    const b=document.createElement('button');
-    b.className='mode'+(p.id===active?' active':'')+(state[p.id].won?' solved':'');
-    b.textContent=p.label;
-    b.onclick=()=>{active=p.id;msg.textContent='';draw()};
-    modebar.appendChild(b);
-  }
-}
-
-function letterRanks(){
-  const rank={miss:1,near:2,hit:3}, found={};
-  const s=st(), a=puzzle().answer;
-  for(let ri=0;ri<s.r+(s.done?1:0);ri++){
-    const g=s.guesses[ri].join('');
-    if(g.length!==5) continue;
-    const sc=score(g,a);
-    [...g].forEach((ch,i)=>{
-      if(!found[ch] || rank[sc[i]]>rank[found[ch]]) found[ch]=sc[i];
-    });
-  }
-  return found;
-}
-
-function drawBoard(){
-  board.innerHTML='';
-  const s=st(), a=puzzle().answer;
-  s.guesses.forEach((row,ri)=>{
-    const d=document.createElement('div');d.className='row';
-    row.forEach((ch,ci)=>{
-      const t=document.createElement('div');t.className='tile'+(ch?' filled':'');t.textContent=ch;
-      if(ri<s.r || (s.done&&ri===s.r)){
-        const res=score(row.join(''),a)[ci];
-        if(res)t.classList.add(res);
-      }
-      d.appendChild(t);
-    });
-    board.appendChild(d);
-  });
-}
-
-function drawKeys(){
-  keys.innerHTML='';
-  const found=letterRanks();
-  const layouts=['QWERTYUIOP','ASDFGHJKL','ZXCVBNM'];
-  layouts.forEach((s,i)=>{
-    const row=document.createElement('div');row.className='keyrow';
-    if(i===2){
-      const b=document.createElement('button');b.textContent='ENTER';b.className='key wide';b.onclick=()=>press('ENTER');row.appendChild(b);
-    }
-    [...s].forEach(k=>{
-      const b=document.createElement('button');b.textContent=k;b.className='key'+(found[k]?' '+found[k]:'');b.onclick=()=>press(k);row.appendChild(b);
-    });
-    if(i===2){
-      const b=document.createElement('button');b.textContent='⌫';b.className='key wide';b.onclick=()=>press('⌫');row.appendChild(b);
-    }
-    keys.appendChild(row);
-  });
-}
-
-function drawHint(){
-  const p=puzzle(), s=st();
-  hintWrap.style.display=s.hint?'block':'none';
-  hintBtn.textContent=s.hint?'hide hint 🙈':'need a hint? 📸';
-  if(s.hint){
-    hintImg.src=p.hint;
-    hintCap.textContent=p.hintCap;
-  }
-}
-
-function drawResult(){
-  const p=puzzle(), s=st();
-  if(!s.done){result.style.display='none';return}
-  result.style.display='block';
-  if(s.won){
-    resultTitle.textContent=p.win;
-    resultBody.textContent='you got '+p.answer+' in '+(s.r+1)+'/6.';
-    resultSmall.textContent=p.winSmall;
-  }else{
-    resultTitle.textContent='not your finest work.';
-    resultBody.textContent=p.fail;
-    resultSmall.textContent='there are three other universes waiting for redemption.';
-  }
-}
-
-function draw(){
-  const p=puzzle();
-  document.documentElement.style.setProperty('--accent',p.accent);
-  modeLabel.textContent=p.name;
-  const solved=puzzles.filter(x=>state[x.id].won).length;
-  progress.textContent=solved+'/4 solved';
-  drawModes();drawBoard();drawKeys();drawHint();drawResult();
-}
-
-hintBtn.onclick=()=>{
-  st().hint=!st().hint;save();drawHint();
-};
-
-function press(k){
-  const p=puzzle(), s=st();
-  if(s.done)return;
-  if(k==='⌫'){
-    if(s.c>0){s.c--;s.guesses[s.r][s.c]='';msg.textContent=''}
-  }else if(k==='ENTER'){
-    if(s.c<5){msg.textContent='need all 5 letters 👀';return}
-    const g=s.guesses[s.r].join('');
-    if(g!==p.answer){
-      if(!dictionaryReady){msg.textContent='dictionary is still loading, one sec 👀';return}
-      if(!validWords.has(g)){msg.textContent='that is not a word 😭';return}
-    }
-    if(g===p.answer){
-      s.done=true;s.won=true;msg.textContent='';save();draw();return;
-    }
-    s.r++;s.c=0;msg.textContent='';
-    if(s.r>=rows){s.done=true;s.won=false;save();draw();return}
-  }else if(/^[A-Z]$/.test(k)&&s.c<5){
-    s.guesses[s.r][s.c++]=k;msg.textContent='';
-  }
-  save();drawBoard();drawKeys();
-}
-
-document.addEventListener('keydown',e=>{
-  if(e.key==='Backspace')press('⌫');
-  else if(e.key==='Enter')press('ENTER');
-  else{
-    const k=e.key.toUpperCase();
-    if(/^[A-Z]$/.test(k))press(k);
-  }
-});
-
-draw();
-</script>
-</body>
-</html>
+async function loadWords(){dictionaryStatus='loading';try{const r=await fetch('words.txt',{cache:'no-cache'});if(!r.ok)throw Error('Word list unavailable');const list=(await r.text()).split(/\s+/).map(w=>w.toUpperCase()).filter(w=>/^[A-Z]{5}$/.test(w));if(list.length<1000)throw Error('Incomplete word list');words=new Set(list);dictionaryStatus='ready';message='';}catch{dictionaryStatus='failed';message='word list could not load. tap here to retry.';}if(pack)render();}
+async function fetchPack(){const r=await fetch('puzzles.json',{cache:'no-store'});if(!r.ok)throw Error('Edition unavailable');return validatePack(await r.json());}
+async function checkUpdate(){if(!pack||document.hidden)return;try{const next=await fetchPack();if(next.edition!==pack.edition){pendingPack=next;$('newSet').hidden=false;}}catch{}}
+$('hintBtn').onclick=()=>{state().hint=!state().hint;save();render();};$('hintImg').onerror=()=>{$('hintImg').hidden=true;$('imageError').hidden=false;};$('hintImg').onload=()=>{$('hintImg').hidden=false;$('imageError').hidden=true;};$('retryImage').onclick=()=>{$('hintImg').removeAttribute('src');render();};$('msg').onclick=()=>{if(dictionaryStatus==='failed')loadWords();};$('newSet').onclick=()=>{if(pendingPack)install(pendingPack);};
+window.addEventListener('keydown',e=>{if(e.ctrlKey||e.metaKey||e.altKey||/^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName)||e.target.isContentEditable)return;const key=e.key==='Backspace'?'BACKSPACE':e.key==='Enter'?'ENTER':e.key.toUpperCase();if(key==='ENTER'&&e.target.tagName==='BUTTON'&&!e.target.classList.contains('key'))return;if(key==='ENTER'||key==='BACKSPACE'||/^[A-Z]$/.test(key)){e.preventDefault();press(key);}});
+document.addEventListener('visibilitychange',checkUpdate);window.addEventListener('focus',checkUpdate);setInterval(checkUpdate,60000);
+loadWords();fetchPack().then(install).catch(()=>{$('fatal').textContent='the new set could not load. please refresh in a moment.';});
+</script></body></html>
