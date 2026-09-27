@@ -64,7 +64,7 @@ function restore(p,raw){
  const guesses=Array.isArray(raw?.guesses)?raw.guesses.slice(0,LIMIT).filter(g=>typeof g==='string'&&g.length===n&&/^[A-Z]{5,6}$/.test(g)):[];
  const winAt=guesses.indexOf(p.answer);if(winAt>=0)guesses.splice(winAt+1);
  const done=guesses.includes(p.answer)||guesses.length>=LIMIT;
- const draft=!done&&typeof raw?.draft==='string'&&new RegExp('^[A-Z]{0,'+n+'}
+ const draft=!done&&typeof raw?.draft==='string'&&new RegExp('^[A-Z]{0,'+n+'}$').test(raw.draft)?raw.draft:'';
  return {guesses,draft,hint:raw?.hint===true};
 }
 function save(){try{localStorage.setItem(storageKey(),JSON.stringify(states));}catch{}}
@@ -94,42 +94,6 @@ function press(key){
  save();render();
 }
 async function loadWords(){dictionaryStatus='loading';try{const [r5,r6]=await Promise.all([fetch('words.txt',{cache:'no-cache'}),fetch('words6.txt',{cache:'no-cache'})]);if(!r5.ok||!r6.ok)throw Error('Word list unavailable');const [t5,t6]=await Promise.all([r5.text(),r6.text()]);const list5=t5.split(/\s+/).map(w=>w.toUpperCase()).filter(w=>/^[A-Z]{5}$/.test(w));const list6=t6.split(/\s+/).map(w=>w.toUpperCase()).filter(w=>/^[A-Z]{6}$/.test(w));if(list5.length<1000||list6.length<250)throw Error('Incomplete word list');words=new Set([...list5,...list6]);dictionaryStatus='ready';message='';}catch{dictionaryStatus='failed';message='word list could not load. tap here to retry.';}if(pack)render();}
-async function fetchPack(){const r=await fetch('puzzles.json',{cache:'no-store'});if(!r.ok)throw Error('Edition unavailable');return validatePack(await r.json());}
-async function checkUpdate(){if(!pack||document.hidden)return;try{const next=await fetchPack();if(next.edition!==pack.edition){pendingPack=next;$('newSet').hidden=false;}}catch{}}
-$('hintBtn').onclick=()=>{state().hint=!state().hint;save();render();};$('hintImg').onerror=()=>{$('hintImg').hidden=true;$('imageError').hidden=false;};$('hintImg').onload=()=>{$('hintImg').hidden=false;$('imageError').hidden=true;};$('retryImage').onclick=()=>{$('hintImg').removeAttribute('src');render();};$('msg').onclick=()=>{if(dictionaryStatus==='failed')loadWords();};$('newSet').onclick=()=>{if(pendingPack)install(pendingPack);};
-window.addEventListener('keydown',e=>{if(e.ctrlKey||e.metaKey||e.altKey||/^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName)||e.target.isContentEditable)return;const key=e.key==='Backspace'?'BACKSPACE':e.key==='Enter'?'ENTER':e.key.toUpperCase();if(key==='ENTER'&&e.target.tagName==='BUTTON'&&!e.target.classList.contains('key'))return;if(key==='ENTER'||key==='BACKSPACE'||/^[A-Z]$/.test(key)){e.preventDefault();press(key);}});
-document.addEventListener('visibilitychange',checkUpdate);window.addEventListener('focus',checkUpdate);setInterval(checkUpdate,60000);
-loadWords();fetchPack().then(install).catch(()=>{$('fatal').textContent='the new set could not load. please refresh in a moment.';});
-</script></body></html>
-).test(raw.draft)?raw.draft:'';
- return {guesses,draft,hint:raw?.hint===true};
-}
-function save(){try{localStorage.setItem(storageKey(),JSON.stringify(states));}catch{}}
-function install(data){pack=validatePack(data);let old={};try{old=JSON.parse(localStorage.getItem(storageKey())||'{}')||{};}catch{}states={};for(const p of pack.puzzles)states[p.id]=restore(p,old[p.id]);pendingPack=null;message='';$('newSet').hidden=true;$('fatal').hidden=true;$('game').hidden=false;render();}
-function finished(s,p){return s.guesses.includes(p.answer)||s.guesses.length===LIMIT;}
-function render(){
- const p=current(),s=state(),won=s.guesses.includes(p.answer),done=finished(s,p);
- document.documentElement.style.setProperty('--accent',p.accent||'#9d5c7c');$('modeLabel').textContent=p.name;$('progress').textContent=pack.puzzles.filter(x=>states[x.id].guesses.includes(x.answer)).length+'/4 solved';$('edition').textContent=pack.label||pack.edition;
- $('modebar').replaceChildren();for(const mode of pack.puzzles){const b=document.createElement('button');b.className='mode'+(active===mode.id?' active':'')+(states[mode.id].guesses.includes(mode.answer)?' solved':'');b.textContent=mode.label;b.setAttribute('aria-pressed',String(active===mode.id));b.onclick=()=>{active=mode.id;message='';render();};$('modebar').appendChild(b);}
- $('board').replaceChildren();const ranks={},rank={miss:1,near:2,hit:3};
- for(let row=0;row<LIMIT;row++){const submitted=row<s.guesses.length,g=submitted?s.guesses[row]:(!done&&row===s.guesses.length?s.draft:'');const colors=submitted?score(g,p.answer):[];const div=document.createElement('div');div.className='row';for(let i=0;i<5;i++){const cell=document.createElement('span');cell.className='tile'+(g[i]?' filled':'')+(colors[i]?' '+colors[i]:'');cell.textContent=g[i]||'';cell.setAttribute('aria-label',g[i]?(g[i]+(colors[i]?' '+({hit:'correct position',near:'wrong position',miss:'not present'}[colors[i]]):'')):'empty');div.appendChild(cell);if(submitted&&(!ranks[g[i]]||rank[colors[i]]>rank[ranks[g[i]]]))ranks[g[i]]=colors[i];}$('board').appendChild(div);}
- $('keys').replaceChildren();for(const layout of ['QWERTYUIOP','ASDFGHJKL','ENTER ZXCVBNM BACKSPACE']){const row=document.createElement('div');row.className='keyrow';const letters=layout.includes(' ')?['ENTER',...'ZXCVBNM','BACKSPACE']:[...layout];for(const key of letters){const b=document.createElement('button');b.className='key'+(key.length>1?' wide':'')+(ranks[key]?' '+ranks[key]:'');b.textContent=key==='BACKSPACE'?'⌫':key;b.setAttribute('aria-label',key==='BACKSPACE'?'Delete letter':key);b.onclick=()=>press(key);row.appendChild(b);}$('keys').appendChild(row);}
- $('msg').textContent=message;$('hintWrap').hidden=!s.hint;$('hintBtn').textContent=s.hint?'hide hint 🙈':'need a hint? 📸';$('hintBtn').setAttribute('aria-expanded',String(s.hint));$('hintCap').textContent=p.hintCap;
- if(s.hint&&$('hintImg').getAttribute('src')!==p.hint){$('imageError').hidden=true;$('hintImg').hidden=false;$('hintImg').src=p.hint;}
- $('result').hidden=!done;$('source').hidden=true;
- if(done){$('resultTitle').textContent=won?p.win:'not your finest work.';$('resultBody').textContent=won?'you got '+p.answer+' in '+s.guesses.length+'/6.':p.fail;$('resultSmall').textContent=p.reveal||p.winSmall||'';if(p.sourceUrl&&/^https:\/\//.test(p.sourceUrl)){$('source').href=p.sourceUrl;$('source').textContent=p.sourceCredit||'scene source';$('source').hidden=false;}}
-}
-function press(key){
- if(!pack)return;const p=current(),s=state();if(finished(s,p))return;
- if(key==='BACKSPACE'){s.draft=s.draft.slice(0,-1);message='';}
- else if(key==='ENTER'){
-  if(s.draft.length!==5){message='need all 5 letters 👀';render();return;}
-  if(!allowed(s.draft,p.answer)){message=dictionaryStatus==='ready'?'that is not in the word list 😭':dictionaryStatus==='failed'?'word list could not load. tap here to retry.':'word list is loading. one sec 👀';render();return;}
-  s.guesses.push(s.draft);s.draft='';message='';
- }else if(/^[A-Z]$/.test(key)&&s.draft.length<5){s.draft+=key;message='';}
- save();render();
-}
-async function loadWords(){dictionaryStatus='loading';try{const r=await fetch('words.txt',{cache:'no-cache'});if(!r.ok)throw Error('Word list unavailable');const list=(await r.text()).split(/\s+/).map(w=>w.toUpperCase()).filter(w=>/^[A-Z]{5}$/.test(w));if(list.length<1000)throw Error('Incomplete word list');words=new Set(list);dictionaryStatus='ready';message='';}catch{dictionaryStatus='failed';message='word list could not load. tap here to retry.';}if(pack)render();}
 async function fetchPack(){const r=await fetch('puzzles.json',{cache:'no-store'});if(!r.ok)throw Error('Edition unavailable');return validatePack(await r.json());}
 async function checkUpdate(){if(!pack||document.hidden)return;try{const next=await fetchPack();if(next.edition!==pack.edition){pendingPack=next;$('newSet').hidden=false;}}catch{}}
 $('hintBtn').onclick=()=>{state().hint=!state().hint;save();render();};$('hintImg').onerror=()=>{$('hintImg').hidden=true;$('imageError').hidden=false;};$('hintImg').onload=()=>{$('hintImg').hidden=false;$('imageError').hidden=true;};$('retryImage').onclick=()=>{$('hintImg').removeAttribute('src');render();};$('msg').onclick=()=>{if(dictionaryStatus==='failed')loadWords();};$('newSet').onclick=()=>{if(pendingPack)install(pendingPack);};
