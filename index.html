@@ -41,22 +41,12 @@ main{max-width:520px;margin:0 auto;padding:20px 12px 38px;text-align:center}h1{f
 <script>
 'use strict';
 const $=id=>document.getElementById(id), MODES=['us','friends','gossip','oc'], LIMIT=6;
-let pack, pendingPack, active='us', states={}, words=new Set(), dictionaryStatus='loading', message='', validating=false; const remoteWordCache=new Map();
+let pack, pendingPack, active='us', states={}, words=new Set(), dictionaryStatus='loading', message='', validating=false;
 function score(guess,answer){const n=answer.length,result=Array(n).fill('miss'),left={};for(let i=0;i<n;i++){if(guess[i]===answer[i])result[i]='hit';else left[answer[i]]=(left[answer[i]]||0)+1;}for(let i=0;i<n;i++){if(result[i]!=='hit'&&left[guess[i]]>0){result[i]='near';left[guess[i]]--;}}return result;}
 async function allowed(guess,answer){
  if(guess.length!==answer.length||!/^[A-Z]{5,6}$/.test(guess))return false;
  if(guess===answer)return true;
- if(dictionaryStatus==='ready'&&words.has(guess))return true;
- if(guess.length!==6)return false;
- if(remoteWordCache.has(guess))return remoteWordCache.get(guess);
- try{
-  const r=await fetch('https://api.dictionaryapi.dev/api/v2/entries/en/'+encodeURIComponent(guess.toLowerCase()),{cache:'force-cache'});
-  const ok=r.ok;
-  remoteWordCache.set(guess,ok);
-  return ok;
- }catch{
-  return false;
- }
+ return dictionaryStatus==='ready'&&words.has(guess);
 }
 function validatePack(data){
  if(!data||typeof data.edition!=='string'||!Array.isArray(data.puzzles)||data.puzzles.length!==4)throw Error('Invalid edition');
