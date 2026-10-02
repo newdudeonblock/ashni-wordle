@@ -22,3 +22,6 @@ Exactly the current puzzle's answer length, either five or six A-Z letters. Five
 All four modes and all hints present; unique edition ID; mixed 5/6 board sizing; correct per-mode answer exception; junk guesses rejected without consuming a turn; six misses finish without a crash; duplicate-letter scoring; independent saved guesses and hidden/revealed hints per mode; mobile keyboard at 320px; live image loading; correct source provenance. The client checks for a new puzzles.json every minute and on foreground return, offering an explicit new-set button without discarding an ongoing round.
 
 The page is a static client-side game: answers are inspectable in source/data and the host is not made private by robots metadata. Do not treat obfuscation as security.
+
+## Bundled dictionaries
+Guess validation is fully local. Preserve and only expand the bundled dictionaries. words.txt is the existing Wordle-style five-letter list merged with the HermitDave FrequencyWords English 50k corpus; words6.txt is the six-letter equivalent. Never replace either file with a smaller generated subset. Routine puzzle publication should leave both dictionaries intact unless adding legitimate words. No remote dictionary API is permitted at submit time.
