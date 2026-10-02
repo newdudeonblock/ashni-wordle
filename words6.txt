@@ -169,6 +169,7 @@ jersey
 jungle
 kitten
 korean
+laptop
 launch
 lawyer
 leader
@@ -226,6 +227,7 @@ pillow
 player
 please
 pocket
+police
 poster
 potato
 pretty
@@ -282,6 +284,7 @@ spider
 spiker
 spirit
 splash
+sprint
 stairs
 street
 strict
@@ -334,4 +337,3 @@ worker
 writer
 yellow
 zipper
-sprint
