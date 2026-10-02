@@ -55,7 +55,7 @@ function validatePack(data){
   if(!/^[A-Z]{5,6}$/.test(p.answer)||typeof p.hint!=='string'||typeof p.hintCap!=='string')throw Error('Invalid puzzle');
   if(p.hintCap.toUpperCase().includes(p.answer))throw Error('Hint caption reveals the answer');
   if(p.id==='us'){
-   if(p.origin!=='user-upload'||!/^assets\/us\/[a-zA-Z0-9_-]+\.(webp|png|jpe?g)$/.test(p.hint)||!['The Book of Us.pdf','assets.zip'].includes(p.sourceFile))throw Error('Us hints must come from the approved uploads');
+   if(p.origin!=='user-upload'||!/^assets\/us\/[a-zA-Z0-9_-]+\.(webp|png|jpe?g)$/.test(p.hint)||!['assets.zip','Valentine scavenger hunt'].includes(p.sourceFile))throw Error('Us hints must come from the approved uploads');
   }else if(p.origin!=='show-scene'||!p.season||!p.episode||!/^https:\/\//.test(p.sourceUrl)||!(/^https:\/\//.test(p.hint)||/^assets\/shows\//.test(p.hint)))throw Error('Verified show scene required');
  }
  return data;
